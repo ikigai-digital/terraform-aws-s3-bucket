@@ -8,6 +8,7 @@ resource "aws_s3_bucket_acl" "acl" {
 
   bucket = aws_s3_bucket.bucket.id
   acl    = "private"
+  tags   = merge(var.tags, var.additional_tags)
 }
 
 resource "aws_s3_bucket_versioning" "versioning" {
@@ -17,22 +18,12 @@ resource "aws_s3_bucket_versioning" "versioning" {
     status     = "Enabled"
     mfa_delete = "Enabled"
   }
+  tags = merge(var.tags, var.additional_tags)
 }
 
-resource "aws_kms_key" "key" {
-  description             = "This key is used to encrypt bucket objects"
-  deletion_window_in_days = 10
-}
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
+resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
   bucket = aws_s3_bucket.bucket.bucket
-
-  rule {
-    apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.key.arn
-      sse_algorithm     = "aws:kms"
-    }
-  }
+  tags = merge(var.tags, var.additional_tags)
 }
 
 resource "aws_s3_bucket_public_access_block" "bucket" {
@@ -44,6 +35,7 @@ resource "aws_s3_bucket_public_access_block" "bucket" {
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
+  tags                    = merge(var.tags, var.additional_tags)
 }
 
 resource "aws_s3_bucket_logging" "server_access_logging" {
@@ -52,6 +44,7 @@ resource "aws_s3_bucket_logging" "server_access_logging" {
 
   target_bucket = var.logging["bucket_name"]
   target_prefix = var.logging["prefix"]
+  tags          = merge(var.tags, var.additional_tags)
 }
 
 resource "aws_s3_bucket_ownership_controls" "bucket" {
@@ -60,5 +53,6 @@ resource "aws_s3_bucket_ownership_controls" "bucket" {
   rule {
     object_ownership = var.object_ownership
   }
+  tags = merge(var.tags, var.additional_tags)
 }
 
