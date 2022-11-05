@@ -1,0 +1,26 @@
+version: 2
+updates:
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Specify labels for terraform version update pull requests
+    labels:
+      - "minor"
+    commit-message:
+      prefix: "PP-0: "
+      include: "scope"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    # Specify labels for terraform version update pull requests
+    labels:
+      - "minor"
+    commit-message:
+      prefix: "PP-0: "
+      include: "scope"
+    ignore:
+      # ignore all minor and patch updates for all dependencies
+      - dependency-name: "*"
+        update-types: ["version-update:semver-minor","version-update:semver-patch"]

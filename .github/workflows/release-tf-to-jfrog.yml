@@ -1,0 +1,17 @@
+name: Release
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+jobs:
+  call-release-workflow:
+    name: Calling Release Workflow
+    uses: ikigai-digital/github-workflow-templates/.github/workflows/workflow-release-tf-to-jfrog.yml@main
+    with:
+      path: s3/aws
+    secrets:
+      inherit
