@@ -1,0 +1,21 @@
+name: Release
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+  push:
+    branches-ignore:
+      - main
+  delete:
+
+jobs:
+  call-release-workflow:
+    name: Calling Release Workflow
+    uses: P-Olympus/github-workflow-templates/.github/workflows/workflow-release-tf-to-jfrog.yml@main
+    with:
+      path: s3/aws
+    secrets:
+      inherit

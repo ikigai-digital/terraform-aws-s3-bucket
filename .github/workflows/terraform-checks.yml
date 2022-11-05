@@ -1,0 +1,13 @@
+name: 'Terraform Checks'
+on:
+  pull_request:
+    types: [opened, edited, synchronize, labeled, unlabeled]
+permissions:
+  pull-requests: write
+  checks: write
+  contents: read
+jobs:
+  terraform-checks:
+    uses: ikigai-digital/github-workflow-templates/.github/workflows/util-terraform-checks.yml@main
+    with:
+      terraform_directory: ./
