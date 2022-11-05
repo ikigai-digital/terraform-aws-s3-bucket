@@ -30,3 +30,35 @@ variable "tags" {
     CostCenter         = string
   })
 }
+
+variable "public_access_block_enabled" {
+  description = "Toggle to create bucket-level access block. If account-level public access block is set creating this will throw an AccessDenied error."
+  type        = bool
+  default     = true
+}
+
+variable "logging" {
+  type = object({
+    enable      = bool
+    bucket_name = string
+    prefix      = string
+  })
+  default = {
+    enable      = false
+    bucket_name = ""
+    prefix      = ""
+  }
+  description = "Bucket access logging configuration."
+}
+
+variable "object_ownership" {
+  description = "Object ownership within bucket"
+  type        = string
+  default     = "BucketOwnerPreferred"
+}
+
+variable "bucket_policies" {
+  description = "Policies to be added to the base policy"
+  type        = list(any)
+  default     = []
+}
