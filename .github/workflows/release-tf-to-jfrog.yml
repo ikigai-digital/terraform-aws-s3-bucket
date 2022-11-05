@@ -6,10 +6,6 @@ on:
       - main
     types:
       - closed
-  push:
-    branches-ignore:
-      - main
-  delete:
 
 jobs:
   call-release-workflow:
